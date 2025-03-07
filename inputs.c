@@ -5,7 +5,7 @@
 //Add Alice with ID 102 to students
 
 
-//Remove student with ID 101
+//Delete from student 
 
 
 //Change ID of 102 to 202
