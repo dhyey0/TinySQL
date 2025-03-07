@@ -80,7 +80,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 void yyerror(const char *s);
 int yylex(void);
@@ -106,12 +105,12 @@ int yylex(void);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 10 "tinysql.y"
+#line 9 "tinysql.y"
 {
     char *str;
 }
 /* Line 193 of yacc.c.  */
-#line 115 "tinysql.tab.c"
+#line 114 "tinysql.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -124,7 +123,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 128 "tinysql.tab.c"
+#line 127 "tinysql.tab.c"
 
 #ifdef short
 # undef short
@@ -405,7 +404,7 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    19,    19
+       0,    18,    18
 };
 #endif
 
@@ -1301,13 +1300,13 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 19 "tinysql.y"
-    { printf("Executing SQL: %s\n", (yyvsp[(1) - (1)].str)); ;}
+#line 18 "tinysql.y"
+    { printf("Executing: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1311 "tinysql.tab.c"
+#line 1310 "tinysql.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1521,7 +1520,7 @@ yyreturn:
 }
 
 
-#line 22 "tinysql.y"
+#line 21 "tinysql.y"
 
 
 void yyerror(const char *s) {

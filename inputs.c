@@ -1,4 +1,4 @@
-//Show all
+
 
 //Add John with ID 101 to students
 

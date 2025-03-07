@@ -1,7 +1,6 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 void yyerror(const char *s);
 int yylex(void);
@@ -16,7 +15,7 @@ int yylex(void);
 %%
 
 commands:
-    QUERY { printf("Executing SQL: %s\n", $1); }
+    QUERY { printf("Executing: %s\n", $1); }
     ;
 
 %%

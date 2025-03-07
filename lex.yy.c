@@ -441,7 +441,7 @@ char *yytext;
 #line 2 "tinysql.l"
 #include <stdio.h>
 #include <string.h>
-#include "tinysql.tab.h"  // Fix: Include Bison header
+#include "tinysql.tab.h"
 int yyparse();
 void convert_to_sql(char *input);
 #line 447 "lex.yy.c"
@@ -1744,31 +1744,33 @@ void yyfree (void * ptr )
 void convert_to_sql(char *input) {
     char sql[256];
 
-    if (strstr(input, "Show all")) {
-        strcpy(sql, "SELECT * FROM students;");
-    } else if (strstr(input, "Add")) {
+    if (strstr(input, "Create table")) {
+        char table[50], columns[200];
+        sscanf(input, "Create table %s with %[^\n]", table, columns);
+        sprintf(sql, "CREATE TABLE %s (%s);", table, columns);
+    } 
+    else if (strstr(input, "Add")) {
+        char table[50], name[50];
         int id;
-        char name[50];
-        sscanf(input, "Add %s with ID %d to students", name, &id);
-        sprintf(sql, "INSERT INTO students VALUES (%d, '%s');", id, name);
-    } else if (strstr(input, "Remove student with ID")) {
-        int id;
-        sscanf(input, "Remove student with ID %d", &id);
-        sprintf(sql, "DELETE FROM students WHERE id = %d;", id);
-    } else if (strstr(input, "Change ID of")) {
-        int old_id, new_id;
-        sscanf(input, "Change ID of %d to %d", &old_id, &new_id);
-        sprintf(sql, "UPDATE students SET id = %d WHERE id = %d;", new_id, old_id);
-    } else if (strstr(input, "Update student with ID")) {
-        int id;
-        char field[50], new_value[50];
-        sscanf(input, "Update student with ID %d set %s = %s", &id, field, new_value);
-        sprintf(sql, "UPDATE students SET %s = '%s' WHERE id = %d;", field, new_value, id);
-    } else if (strstr(input, "Find student where")) {
-        char field[50], value[50];
-        sscanf(input, "Find student where %s = %s", field, value);
-        sprintf(sql, "SELECT * FROM students WHERE %s = '%s';", field, value);
-    } else {
+        sscanf(input, "Add %s with ID %d to %s", name, &id, table);
+        sprintf(sql, "INSERT INTO %s VALUES (%d, '%s');", table, id, name);
+    } 
+    else if (strstr(input, "Delete from")) {
+        char table[50], condition[100];
+        sscanf(input, "Delete from %s with %[^\n]", table, condition);
+        sprintf(sql, "DELETE FROM %s WHERE %s;", table, condition);
+    } 
+    else if (strstr(input, "Update")) {
+        char table[50], updates[100], condition[100];
+        sscanf(input, "Update %s set %[^w] where %[^\n]", table, updates, condition);
+        sprintf(sql, "UPDATE %s SET %s WHERE %s;", table, updates, condition);
+    } 
+    else if (strstr(input, "Find")) {
+        char table[50], condition[100];
+        sscanf(input, "Find %s where %[^\n]", table, condition);
+        sprintf(sql, "SELECT * FROM %s WHERE %s;", table, condition);
+    } 
+    else {
         printf("Invalid query format!\n");
         return;
     }

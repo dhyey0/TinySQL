@@ -50,7 +50,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 10 "tinysql.y"
+#line 9 "tinysql.y"
 {
     char *str;
 }
