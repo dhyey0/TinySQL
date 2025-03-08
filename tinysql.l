@@ -2,58 +2,46 @@
 #include <stdio.h>
 #include <string.h>
 #include "tinysql.tab.h"
-int yyparse();
-void convert_to_sql(char *input);
+
+void yyerror(char *);
 %}
 
 %%
-
-[A-Za-z0-9 ,=]*\n { convert_to_sql(yytext); }
-
+"create"                    { return CREATE; }
+"add to"                    { return INSERT; }
+"select"                    { return SELECT; }
+"update"                    { return UPDATE; }
+"delete from"               { return DELETE; }
+"with condition"            { return WHERE; }
+"to"                        { return TO; }
+"in"                        { return IN; }
+"from"                      { return FROM; }
+"int"                       { return INT_TYPE; }
+"string"                    { return STRING_TYPE; }
+"all"                       { return ALL; }
+"="                         { return EQUALS; }
+"!="                        { return NOT_EQUALS; }
+">"                         { return GREATER; }
+"<"                         { return LESS; }
+">="                        { return GREATER_EQUALS; }
+"<="                        { return LESS_EQUALS; }
+","                         { return COMMA; }
+[a-zA-Z][a-zA-Z0-9_]*       { yylval.str = strdup(yytext); return IDENTIFIER; }
+[0-9]+                      { yylval.num = atoi(yytext); return NUMBER; }
+\"[^\"]*\"                  { 
+                              yylval.str = strdup(yytext+1); 
+                              yylval.str[strlen(yylval.str)-1] = '\0'; 
+                              return STRING; 
+                            }
+\'[^\']*\'                  { 
+                              yylval.str = strdup(yytext+1); 
+                              yylval.str[strlen(yylval.str)-1] = '\0'; 
+                              return STRING; 
+                            }
+[ \t\n]                     ; /* skip whitespace */
+.                           { yyerror("Invalid character"); }
 %%
 
-void convert_to_sql(char *input) {
-    char sql[256];
-
-    if (strstr(input, "Create table")) {
-        char table[50], columns[200];
-        sscanf(input, "Create table %s with %[^\n]", table, columns);
-        sprintf(sql, "CREATE TABLE %s (%s);", table, columns);
-    } 
-    else if (strstr(input, "Add")) {
-        char table[50], name[50];
-        int id;
-        sscanf(input, "Add %s with ID %d to %s", name, &id, table);
-        sprintf(sql, "INSERT INTO %s VALUES (%d, '%s');", table, id, name);
-    } 
-    else if (strstr(input, "Delete from")) {
-        char table[50], condition[100];
-        sscanf(input, "Delete from %s with %[^\n]", table, condition);
-        sprintf(sql, "DELETE FROM %s WHERE %s;", table, condition);
-    } 
-    else if (strstr(input, "Update")) {
-        char table[50], updates[100], condition[100];
-        sscanf(input, "Update %s set %[^w] where %[^\n]", table, updates, condition);
-        sprintf(sql, "UPDATE %s SET %s WHERE %s;", table, updates, condition);
-    } 
-    else if (strstr(input, "Find")) {
-        char table[50], condition[100];
-        sscanf(input, "Find %s where %[^\n]", table, condition);
-        sprintf(sql, "SELECT * FROM %s WHERE %s;", table, condition);
-    } 
-    else {
-        printf("Invalid query format!\n");
-        return;
-    }
-
-    printf("Converted to SQL: %s\n", sql);
-}
-
-int yywrap() {
+int yywrap(void) {
     return 1;
-}
-
-int main() {
-    yyparse();
-    return 0;
 }

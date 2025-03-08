@@ -66,11 +66,53 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     QUERY = 258
+     CREATE = 258,
+     INSERT = 259,
+     SELECT = 260,
+     UPDATE = 261,
+     DELETE = 262,
+     WHERE = 263,
+     TO = 264,
+     IN = 265,
+     FROM = 266,
+     COMMA = 267,
+     INT_TYPE = 268,
+     STRING_TYPE = 269,
+     ALL = 270,
+     EQUALS = 271,
+     NOT_EQUALS = 272,
+     GREATER = 273,
+     LESS = 274,
+     GREATER_EQUALS = 275,
+     LESS_EQUALS = 276,
+     IDENTIFIER = 277,
+     STRING = 278,
+     NUMBER = 279
    };
 #endif
 /* Tokens.  */
-#define QUERY 258
+#define CREATE 258
+#define INSERT 259
+#define SELECT 260
+#define UPDATE 261
+#define DELETE 262
+#define WHERE 263
+#define TO 264
+#define IN 265
+#define FROM 266
+#define COMMA 267
+#define INT_TYPE 268
+#define STRING_TYPE 269
+#define ALL 270
+#define EQUALS 271
+#define NOT_EQUALS 272
+#define GREATER 273
+#define LESS 274
+#define GREATER_EQUALS 275
+#define LESS_EQUALS 276
+#define IDENTIFIER 277
+#define STRING 278
+#define NUMBER 279
 
 
 
@@ -80,9 +122,21 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
 
-void yyerror(const char *s);
+void yyerror(char *s);
 int yylex(void);
+
+/* Simplified direct storage for column definitions */
+char *columns[100];
+char *datatypes[100];
+int column_count = 0;
+
+/* Simplified direct storage for insert values */
+char *insert_columns[100];
+char *insert_values[100];
+int insert_pair_count = 0;
 
 
 /* Enabling traces.  */
@@ -105,12 +159,17 @@ int yylex(void);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 9 "tinysql.y"
+#line 21 "tinysql.y"
 {
+    int num;
     char *str;
+    struct {
+        char **items;
+        int count;
+    } list;
 }
 /* Line 193 of yacc.c.  */
-#line 114 "tinysql.tab.c"
+#line 173 "tinysql.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -123,7 +182,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 127 "tinysql.tab.c"
+#line 186 "tinysql.tab.c"
 
 #ifdef short
 # undef short
@@ -336,22 +395,22 @@ union yyalloc
 #endif
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  3
+#define YYFINAL  19
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   1
+#define YYLAST   45
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  4
+#define YYNTOKENS  25
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  2
+#define YYNNTS  18
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  2
+#define YYNRULES  37
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  4
+#define YYNSTATES  63
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   258
+#define YYMAXUTOK   279
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -384,7 +443,9 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2,     3
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24
 };
 
 #if YYDEBUG
@@ -392,19 +453,36 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3
+       0,     0,     3,     5,     7,     9,    11,    13,    14,    19,
+      21,    25,    28,    30,    32,    33,    38,    40,    44,    47,
+      50,    55,    62,    64,    66,    70,    77,    86,    91,    93,
+      95,    99,   101,   103,   105,   107,   109,   111
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-       5,     0,    -1,     3,    -1
+      26,     0,    -1,    27,    -1,    32,    -1,    36,    -1,    38,
+      -1,    39,    -1,    -1,     3,    22,    28,    29,    -1,    30,
+      -1,    29,    12,    30,    -1,    22,    31,    -1,    13,    -1,
+      14,    -1,    -1,     4,    22,    33,    34,    -1,    35,    -1,
+      34,    12,    35,    -1,    22,    40,    -1,     5,    22,    -1,
+       5,    37,    11,    22,    -1,     5,    37,    11,    22,     8,
+      41,    -1,    15,    -1,    22,    -1,    37,    12,    22,    -1,
+       6,    22,     9,    40,    10,    22,    -1,     6,    22,     9,
+      40,     8,    41,    10,    22,    -1,     7,    22,     8,    41,
+      -1,    24,    -1,    23,    -1,    22,    42,    40,    -1,    22,
+      -1,    16,    -1,    17,    -1,    18,    -1,    19,    -1,    20,
+      -1,    21,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    18,    18
+       0,    40,    40,    41,    42,    43,    44,    49,    49,    74,
+      75,    79,    88,    91,    98,    98,   135,   136,   140,   150,
+     153,   156,   162,   165,   168,   175,   178,   185,   192,   197,
+     205,   212,   218,   221,   224,   227,   230,   233
 };
 #endif
 
@@ -413,7 +491,14 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "QUERY", "$accept", "commands", 0
+  "$end", "error", "$undefined", "CREATE", "INSERT", "SELECT", "UPDATE",
+  "DELETE", "WHERE", "TO", "IN", "FROM", "COMMA", "INT_TYPE",
+  "STRING_TYPE", "ALL", "EQUALS", "NOT_EQUALS", "GREATER", "LESS",
+  "GREATER_EQUALS", "LESS_EQUALS", "IDENTIFIER", "STRING", "NUMBER",
+  "$accept", "command", "create_stmt", "@1", "column_list", "column_def",
+  "data_type", "insert_stmt", "@2", "column_val_list", "column_val",
+  "select_stmt", "select_column_list", "update_stmt", "delete_stmt",
+  "value", "condition_expr", "operator", 0
 };
 #endif
 
@@ -422,20 +507,28 @@ static const char *const yytname[] =
    token YYLEX-NUM.  */
 static const yytype_uint16 yytoknum[] =
 {
-       0,   256,   257,   258
+       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
+     265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
+     275,   276,   277,   278,   279
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,     4,     5
+       0,    25,    26,    26,    26,    26,    26,    28,    27,    29,
+      29,    30,    31,    31,    33,    32,    34,    34,    35,    36,
+      36,    36,    37,    37,    37,    38,    38,    39,    40,    40,
+      41,    41,    42,    42,    42,    42,    42,    42
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1
+       0,     2,     1,     1,     1,     1,     1,     0,     4,     1,
+       3,     2,     1,     1,     0,     4,     1,     3,     2,     2,
+       4,     6,     1,     1,     3,     6,     8,     4,     1,     1,
+       3,     1,     1,     1,     1,     1,     1,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -443,49 +536,77 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     2,     0,     1
+       0,     0,     0,     0,     0,     0,     0,     2,     3,     4,
+       5,     6,     7,    14,    22,    23,     0,     0,     0,     1,
+       0,     0,     0,     0,     0,     0,     0,     8,     9,     0,
+      15,    16,    20,    24,    29,    28,     0,    31,    27,    12,
+      13,    11,     0,    18,     0,     0,     0,     0,    32,    33,
+      34,    35,    36,    37,     0,    10,    17,    21,     0,    25,
+      30,     0,    26
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2
+      -1,     6,     7,    20,    27,    28,    41,     8,    21,    30,
+      31,     9,    16,    10,    11,    36,    38,    54
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -4
+#define YYPACT_NINF -30
 static const yytype_int8 yypact[] =
 {
-      -3,    -4,     1,    -4
+      -1,   -15,    -6,   -14,    -4,     6,    29,   -30,   -30,   -30,
+     -30,   -30,   -30,   -30,   -30,    30,     8,    22,    24,   -30,
+      11,    12,    13,    14,    -2,    15,    10,    26,   -30,    -2,
+      27,   -30,    32,   -30,   -30,   -30,     7,    -7,   -30,   -30,
+     -30,   -30,    11,   -30,    12,    15,    15,    19,   -30,   -30,
+     -30,   -30,   -30,   -30,    -2,   -30,   -30,   -30,    33,   -30,
+     -30,    20,   -30
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -4,    -4
+     -30,   -30,   -30,   -30,   -30,     2,   -30,   -30,   -30,   -30,
+       1,   -30,   -30,   -30,   -30,   -29,   -19,   -30
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.
    If YYTABLE_NINF, syntax error.  */
-#define YYTABLE_NINF -1
-static const yytype_uint8 yytable[] =
+#define YYTABLE_NINF -20
+static const yytype_int8 yytable[] =
 {
-       1,     3
+      43,    14,     1,     2,     3,     4,     5,    12,    15,    48,
+      49,    50,    51,    52,    53,    46,    13,    47,    17,    22,
+      23,    34,    35,    39,    40,    60,    57,    58,    18,    19,
+     -19,    24,    25,    26,    29,    32,    33,    37,    42,    44,
+      45,    59,    62,    61,    55,    56
 };
 
 static const yytype_uint8 yycheck[] =
 {
-       3,     0
+      29,    15,     3,     4,     5,     6,     7,    22,    22,    16,
+      17,    18,    19,    20,    21,     8,    22,    10,    22,    11,
+      12,    23,    24,    13,    14,    54,    45,    46,    22,     0,
+       0,     9,     8,    22,    22,    22,    22,    22,    12,    12,
+       8,    22,    22,    10,    42,    44
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,     5,     0
+       0,     3,     4,     5,     6,     7,    26,    27,    32,    36,
+      38,    39,    22,    22,    15,    22,    37,    22,    22,     0,
+      28,    33,    11,    12,     9,     8,    22,    29,    30,    22,
+      34,    35,    22,    22,    23,    24,    40,    22,    41,    13,
+      14,    31,    12,    40,    12,     8,     8,    10,    16,    17,
+      18,    19,    20,    21,    42,    30,    35,    41,    41,    22,
+      40,    10,    22
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1300,13 +1421,282 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 18 "tinysql.y"
-    { printf("Executing: %s\n", (yyvsp[(1) - (1)].str)); ;}
+#line 40 "tinysql.y"
+    { printf("SQL query generated successfully.\n"); ;}
+    break;
+
+  case 3:
+#line 41 "tinysql.y"
+    { printf("SQL query generated successfully.\n"); ;}
+    break;
+
+  case 4:
+#line 42 "tinysql.y"
+    { printf("SQL query generated successfully.\n"); ;}
+    break;
+
+  case 5:
+#line 43 "tinysql.y"
+    { printf("SQL query generated successfully.\n"); ;}
+    break;
+
+  case 6:
+#line 44 "tinysql.y"
+    { printf("SQL query generated successfully.\n"); ;}
+    break;
+
+  case 7:
+#line 49 "tinysql.y"
+    {
+        column_count = 0; // Reset the column counter
+    ;}
+    break;
+
+  case 8:
+#line 51 "tinysql.y"
+    {
+        printf("CREATE TABLE %s (\n", (yyvsp[(2) - (4)].str));
+        
+        // Print all column definitions
+        for (int i = 0; i < column_count; i++) {
+            printf("    %s %s", columns[i], datatypes[i]);
+            if (i < column_count - 1) {
+                printf(",\n");
+            } else {
+                printf("\n");
+            }
+            
+            // Free memory as we go
+            free(columns[i]);
+            free(datatypes[i]);
+        }
+        
+        printf(");\n");
+        column_count = 0; // Reset for next use
+    ;}
+    break;
+
+  case 11:
+#line 79 "tinysql.y"
+    {
+        // Store column definition directly
+        columns[column_count] = strdup((yyvsp[(1) - (2)].str));
+        datatypes[column_count] = (yyvsp[(2) - (2)].str); // $2 is already duplicated in data_type
+        column_count++;
+    ;}
+    break;
+
+  case 12:
+#line 88 "tinysql.y"
+    {
+        (yyval.str) = strdup("INTEGER");
+    ;}
+    break;
+
+  case 13:
+#line 91 "tinysql.y"
+    {
+        (yyval.str) = strdup("VARCHAR(255)");
+    ;}
+    break;
+
+  case 14:
+#line 98 "tinysql.y"
+    {
+        insert_pair_count = 0; // Reset for new insert
+    ;}
+    break;
+
+  case 15:
+#line 100 "tinysql.y"
+    {
+        // Build columns and values string directly
+        printf("INSERT INTO %s (", (yyvsp[(2) - (4)].str));
+        
+        // Print column list
+        for (int i = 0; i < insert_pair_count; i++) {
+            printf("%s", insert_columns[i]);
+            if (i < insert_pair_count - 1) {
+                printf(", ");
+            }
+        }
+        
+        printf(")\nVALUES (");
+        
+        // Print value list
+        for (int i = 0; i < insert_pair_count; i++) {
+            printf("%s", insert_values[i]);
+            if (i < insert_pair_count - 1) {
+                printf(", ");
+            }
+        }
+        
+        printf(");\n");
+        
+        // Free memory
+        for (int i = 0; i < insert_pair_count; i++) {
+            free(insert_columns[i]);
+            free(insert_values[i]);
+        }
+        
+        insert_pair_count = 0; // Reset for next use
+    ;}
+    break;
+
+  case 18:
+#line 140 "tinysql.y"
+    {
+        // Store column and value pair directly
+        insert_columns[insert_pair_count] = strdup((yyvsp[(1) - (2)].str));
+        insert_values[insert_pair_count] = (yyvsp[(2) - (2)].str); // $2 is already duplicated in value
+        insert_pair_count++;
+    ;}
+    break;
+
+  case 19:
+#line 150 "tinysql.y"
+    {
+        printf("SELECT * FROM %s;\n", (yyvsp[(2) - (2)].str));
+    ;}
+    break;
+
+  case 20:
+#line 153 "tinysql.y"
+    {
+        printf(" FROM %s;\n", (yyvsp[(4) - (4)].str));
+    ;}
+    break;
+
+  case 21:
+#line 156 "tinysql.y"
+    {
+        printf(" FROM %s WHERE %s;\n", (yyvsp[(4) - (6)].str), (yyvsp[(6) - (6)].str));
+    ;}
+    break;
+
+  case 22:
+#line 162 "tinysql.y"
+    {
+        printf("SELECT *");
+    ;}
+    break;
+
+  case 23:
+#line 165 "tinysql.y"
+    {
+        printf("SELECT %s", (yyvsp[(1) - (1)].str));
+    ;}
+    break;
+
+  case 24:
+#line 168 "tinysql.y"
+    {
+        printf(", %s", (yyvsp[(3) - (3)].str));
+    ;}
+    break;
+
+  case 25:
+#line 175 "tinysql.y"
+    {
+        printf("UPDATE %s SET %s = %s;\n", (yyvsp[(6) - (6)].str), (yyvsp[(2) - (6)].str), (yyvsp[(4) - (6)].str));
+    ;}
+    break;
+
+  case 26:
+#line 178 "tinysql.y"
+    {
+        printf("UPDATE %s SET %s = %s WHERE %s;\n", (yyvsp[(8) - (8)].str), (yyvsp[(2) - (8)].str), (yyvsp[(4) - (8)].str), (yyvsp[(6) - (8)].str));
+    ;}
+    break;
+
+  case 27:
+#line 185 "tinysql.y"
+    {
+        printf("DELETE FROM %s WHERE %s;\n", (yyvsp[(2) - (4)].str), (yyvsp[(4) - (4)].str));
+    ;}
+    break;
+
+  case 28:
+#line 192 "tinysql.y"
+    {
+        char *val;
+        asprintf(&val, "%d", (yyvsp[(1) - (1)].num));
+        (yyval.str) = val;
+    ;}
+    break;
+
+  case 29:
+#line 197 "tinysql.y"
+    {
+        char *val;
+        asprintf(&val, "'%s'", (yyvsp[(1) - (1)].str));
+        (yyval.str) = val;
+    ;}
+    break;
+
+  case 30:
+#line 205 "tinysql.y"
+    {
+        char *condition;
+        asprintf(&condition, "%s %s %s", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].str));
+        (yyval.str) = condition;
+        free((yyvsp[(2) - (3)].str));
+        free((yyvsp[(3) - (3)].str));
+    ;}
+    break;
+
+  case 31:
+#line 212 "tinysql.y"
+    {
+        (yyval.str) = (yyvsp[(1) - (1)].str);
+    ;}
+    break;
+
+  case 32:
+#line 218 "tinysql.y"
+    {
+        (yyval.str) = strdup("=");
+    ;}
+    break;
+
+  case 33:
+#line 221 "tinysql.y"
+    {
+        (yyval.str) = strdup("<>");
+    ;}
+    break;
+
+  case 34:
+#line 224 "tinysql.y"
+    {
+        (yyval.str) = strdup(">");
+    ;}
+    break;
+
+  case 35:
+#line 227 "tinysql.y"
+    {
+        (yyval.str) = strdup("<");
+    ;}
+    break;
+
+  case 36:
+#line 230 "tinysql.y"
+    {
+        (yyval.str) = strdup(">=");
+    ;}
+    break;
+
+  case 37:
+#line 233 "tinysql.y"
+    {
+        (yyval.str) = strdup("<=");
+    ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1310 "tinysql.tab.c"
+#line 1700 "tinysql.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1520,10 +1910,16 @@ yyreturn:
 }
 
 
-#line 21 "tinysql.y"
+#line 238 "tinysql.y"
 
 
-void yyerror(const char *s) {
+void yyerror(char *s) {
     fprintf(stderr, "Error: %s\n", s);
 }
 
+int main(void) {
+    printf("SQL Translator - Convert laymen instructions to SQL\n");
+    printf("Enter a command (Ctrl+D to exit):\n");
+    yyparse();
+    return 0;
+}

@@ -39,23 +39,70 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     QUERY = 258
+     CREATE = 258,
+     INSERT = 259,
+     SELECT = 260,
+     UPDATE = 261,
+     DELETE = 262,
+     WHERE = 263,
+     TO = 264,
+     IN = 265,
+     FROM = 266,
+     COMMA = 267,
+     INT_TYPE = 268,
+     STRING_TYPE = 269,
+     ALL = 270,
+     EQUALS = 271,
+     NOT_EQUALS = 272,
+     GREATER = 273,
+     LESS = 274,
+     GREATER_EQUALS = 275,
+     LESS_EQUALS = 276,
+     IDENTIFIER = 277,
+     STRING = 278,
+     NUMBER = 279
    };
 #endif
 /* Tokens.  */
-#define QUERY 258
+#define CREATE 258
+#define INSERT 259
+#define SELECT 260
+#define UPDATE 261
+#define DELETE 262
+#define WHERE 263
+#define TO 264
+#define IN 265
+#define FROM 266
+#define COMMA 267
+#define INT_TYPE 268
+#define STRING_TYPE 269
+#define ALL 270
+#define EQUALS 271
+#define NOT_EQUALS 272
+#define GREATER 273
+#define LESS 274
+#define GREATER_EQUALS 275
+#define LESS_EQUALS 276
+#define IDENTIFIER 277
+#define STRING 278
+#define NUMBER 279
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 9 "tinysql.y"
+#line 21 "tinysql.y"
 {
+    int num;
     char *str;
+    struct {
+        char **items;
+        int count;
+    } list;
 }
 /* Line 1529 of yacc.c.  */
-#line 59 "tinysql.tab.h"
+#line 106 "tinysql.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

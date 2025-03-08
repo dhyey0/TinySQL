@@ -352,8 +352,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 2
-#define YY_END_OF_BUFFER 3
+#define YY_NUM_RULES 26
+#define YY_END_OF_BUFFER 27
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -361,27 +361,35 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[10] =
+static const flex_int16_t yy_accept[91] =
     {   0,
-        0,    0,    3,    2,    1,    2,    1,    0,    0
+        0,    0,   27,   25,   24,   24,   25,   25,   25,   19,
+       21,   16,   13,   15,   20,   20,   20,   20,   20,   20,
+       20,   20,   20,   20,   14,    0,   22,    0,   23,   21,
+       18,   17,   20,   20,   20,   20,   20,   20,    8,   20,
+       20,    7,   20,   20,   20,   12,   20,   20,   20,   10,
+       20,   20,   20,   20,    0,   20,   20,    9,   20,   20,
+       20,   20,    0,   20,   20,   20,   20,   20,    0,    2,
+        1,   20,    3,   11,    4,    0,    0,    0,    0,    0,
+        0,    0,    0,    0,    5,    0,    0,    0,    6,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
     {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
+        1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    3,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    3,    1,    1,    1,    3,    3,    3,
-        3,    3,    3,    3,    3,    3,    3,    1,    1,    1,
-        3,    1,    1,    1,    3,    3,    3,    3,    3,    3,
-        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-        1,    1,    1,    1,    1,    1,    3,    3,    3,    3,
+        1,    4,    5,    6,    1,    1,    1,    1,    7,    1,
+        1,    1,    1,    8,    1,    1,    1,    9,    9,    9,
+        9,    9,    9,    9,    9,    9,    9,    1,    1,   10,
+       11,   12,    1,    1,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+        1,    1,    1,    1,   14,    1,   15,   13,   16,   17,
 
-        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-        3,    3,    1,    1,    1,    1,    1,    1,    1,    1,
+       18,   19,   20,   21,   22,   13,   13,   23,   24,   25,
+       26,   27,   13,   28,   29,   30,   31,   13,   32,   13,
+       13,   13,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -398,29 +406,80 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static const YY_CHAR yy_meta[4] =
+static const YY_CHAR yy_meta[33] =
     {   0,
-        1,    1,    1
+        1,    1,    1,    1,    1,    1,    1,    1,    2,    1,
+        1,    1,    2,    2,    2,    2,    2,    2,    2,    2,
+        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
+        2,    2
     } ;
 
-static const flex_int16_t yy_base[10] =
+static const flex_int16_t yy_base[94] =
     {   0,
-        0,    0,    6,    7,    7,    2,    7,    0,    7
+        0,    0,  103,  104,  104,  104,   91,   95,   93,  104,
+       90,   87,  104,   86,    0,   16,   68,   77,   66,   68,
+       16,   66,   64,   68,  104,   83,  104,   81,  104,   78,
+      104,  104,    0,   69,   62,   66,   60,   56,   51,   57,
+       51,    0,   61,   47,   72,    0,   60,   56,   49,    0,
+       54,   49,   55,   48,   38,   37,   36,    0,   49,   39,
+       33,   58,   35,   42,   41,   28,   37,   38,   39,  104,
+        0,   50,    0,    0,    0,   27,   33,   26,   17,   27,
+       17,   20,   17,   10,  104,   16,   11,   11,  104,  104,
+       46,   48,   33
+
     } ;
 
-static const flex_int16_t yy_def[10] =
+static const flex_int16_t yy_def[94] =
     {   0,
-        9,    1,    9,    9,    9,    9,    9,    6,    0
+       90,    1,   90,   90,   90,   90,   90,   91,   92,   90,
+       90,   90,   90,   90,   93,   93,   93,   93,   93,   93,
+       93,   93,   93,   93,   90,   91,   90,   92,   90,   90,
+       90,   90,   93,   93,   93,   93,   93,   93,   93,   93,
+       93,   93,   93,   93,   93,   93,   93,   93,   93,   93,
+       93,   93,   93,   93,   90,   93,   93,   93,   93,   93,
+       93,   93,   90,   93,   93,   93,   93,   93,   90,   90,
+       93,   93,   93,   93,   93,   90,   90,   90,   90,   90,
+       90,   90,   90,   90,   90,   90,   90,   90,   90,    0,
+       90,   90,   90
+
     } ;
 
-static const flex_int16_t yy_nxt[11] =
+static const flex_int16_t yy_nxt[137] =
     {   0,
-        4,    5,    6,    7,    8,    9,    3,    9,    9,    9
+        4,    5,    6,    5,    7,    8,    9,   10,   11,   12,
+       13,   14,   15,    4,   16,   17,   18,   15,   19,   15,
+       15,   20,   15,   15,   15,   15,   15,   15,   21,   22,
+       23,   24,   34,   40,   33,   89,   88,   87,   35,   86,
+       85,   84,   83,   82,   81,   41,   26,   26,   28,   28,
+       80,   79,   78,   77,   76,   75,   74,   73,   72,   71,
+       70,   69,   68,   67,   66,   65,   64,   63,   62,   61,
+       60,   59,   58,   57,   56,   55,   54,   53,   52,   51,
+       50,   49,   48,   47,   46,   45,   30,   29,   27,   44,
+       43,   42,   39,   38,   37,   36,   32,   31,   30,   29,
+
+       27,   25,   90,    3,   90,   90,   90,   90,   90,   90,
+       90,   90,   90,   90,   90,   90,   90,   90,   90,   90,
+       90,   90,   90,   90,   90,   90,   90,   90,   90,   90,
+       90,   90,   90,   90,   90,   90
     } ;
 
-static const flex_int16_t yy_chk[11] =
+static const flex_int16_t yy_chk[137] =
     {   0,
-        1,    1,    1,    6,    6,    3,    9,    9,    9,    9
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,   16,   21,   93,   88,   87,   86,   16,   84,
+       83,   82,   81,   80,   79,   21,   91,   91,   92,   92,
+       78,   77,   76,   72,   69,   68,   67,   66,   65,   64,
+       63,   62,   61,   60,   59,   57,   56,   55,   54,   53,
+       52,   51,   49,   48,   47,   45,   44,   43,   41,   40,
+       39,   38,   37,   36,   35,   34,   30,   28,   26,   24,
+       23,   22,   20,   19,   18,   17,   14,   12,   11,    9,
+
+        8,    7,    3,   90,   90,   90,   90,   90,   90,   90,
+       90,   90,   90,   90,   90,   90,   90,   90,   90,   90,
+       90,   90,   90,   90,   90,   90,   90,   90,   90,   90,
+       90,   90,   90,   90,   90,   90
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -442,10 +501,10 @@ char *yytext;
 #include <stdio.h>
 #include <string.h>
 #include "tinysql.tab.h"
-int yyparse();
-void convert_to_sql(char *input);
-#line 447 "lex.yy.c"
-#line 448 "lex.yy.c"
+
+void yyerror(char *);
+#line 506 "lex.yy.c"
+#line 507 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -664,8 +723,7 @@ YY_DECL
 	{
 #line 9 "tinysql.l"
 
-
-#line 668 "lex.yy.c"
+#line 726 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -692,13 +750,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 10 )
+				if ( yy_current_state >= 91 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 7 );
+		while ( yy_base[yy_current_state] != 104 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -723,17 +781,147 @@ do_action:	/* This label is used only to access EOF actions. */
 			goto yy_find_action;
 
 case 1:
-/* rule 1 can match eol */
 YY_RULE_SETUP
-#line 11 "tinysql.l"
-{ convert_to_sql(yytext); }
+#line 10 "tinysql.l"
+{ return CREATE; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
+#line 11 "tinysql.l"
+{ return INSERT; }
+	YY_BREAK
+case 3:
+YY_RULE_SETUP
+#line 12 "tinysql.l"
+{ return SELECT; }
+	YY_BREAK
+case 4:
+YY_RULE_SETUP
 #line 13 "tinysql.l"
+{ return UPDATE; }
+	YY_BREAK
+case 5:
+YY_RULE_SETUP
+#line 14 "tinysql.l"
+{ return DELETE; }
+	YY_BREAK
+case 6:
+YY_RULE_SETUP
+#line 15 "tinysql.l"
+{ return WHERE; }
+	YY_BREAK
+case 7:
+YY_RULE_SETUP
+#line 16 "tinysql.l"
+{ return TO; }
+	YY_BREAK
+case 8:
+YY_RULE_SETUP
+#line 17 "tinysql.l"
+{ return IN; }
+	YY_BREAK
+case 9:
+YY_RULE_SETUP
+#line 18 "tinysql.l"
+{ return FROM; }
+	YY_BREAK
+case 10:
+YY_RULE_SETUP
+#line 19 "tinysql.l"
+{ return INT_TYPE; }
+	YY_BREAK
+case 11:
+YY_RULE_SETUP
+#line 20 "tinysql.l"
+{ return STRING_TYPE; }
+	YY_BREAK
+case 12:
+YY_RULE_SETUP
+#line 21 "tinysql.l"
+{ return ALL; }
+	YY_BREAK
+case 13:
+YY_RULE_SETUP
+#line 22 "tinysql.l"
+{ return EQUALS; }
+	YY_BREAK
+case 14:
+YY_RULE_SETUP
+#line 23 "tinysql.l"
+{ return NOT_EQUALS; }
+	YY_BREAK
+case 15:
+YY_RULE_SETUP
+#line 24 "tinysql.l"
+{ return GREATER; }
+	YY_BREAK
+case 16:
+YY_RULE_SETUP
+#line 25 "tinysql.l"
+{ return LESS; }
+	YY_BREAK
+case 17:
+YY_RULE_SETUP
+#line 26 "tinysql.l"
+{ return GREATER_EQUALS; }
+	YY_BREAK
+case 18:
+YY_RULE_SETUP
+#line 27 "tinysql.l"
+{ return LESS_EQUALS; }
+	YY_BREAK
+case 19:
+YY_RULE_SETUP
+#line 28 "tinysql.l"
+{ return COMMA; }
+	YY_BREAK
+case 20:
+YY_RULE_SETUP
+#line 29 "tinysql.l"
+{ yylval.str = strdup(yytext); return IDENTIFIER; }
+	YY_BREAK
+case 21:
+YY_RULE_SETUP
+#line 30 "tinysql.l"
+{ yylval.num = atoi(yytext); return NUMBER; }
+	YY_BREAK
+case 22:
+/* rule 22 can match eol */
+YY_RULE_SETUP
+#line 31 "tinysql.l"
+{ 
+                              yylval.str = strdup(yytext+1); 
+                              yylval.str[strlen(yylval.str)-1] = '\0'; 
+                              return STRING; 
+                            }
+	YY_BREAK
+case 23:
+/* rule 23 can match eol */
+YY_RULE_SETUP
+#line 36 "tinysql.l"
+{ 
+                              yylval.str = strdup(yytext+1); 
+                              yylval.str[strlen(yylval.str)-1] = '\0'; 
+                              return STRING; 
+                            }
+	YY_BREAK
+case 24:
+/* rule 24 can match eol */
+YY_RULE_SETUP
+#line 41 "tinysql.l"
+; /* skip whitespace */
+	YY_BREAK
+case 25:
+YY_RULE_SETUP
+#line 42 "tinysql.l"
+{ yyerror("Invalid character"); }
+	YY_BREAK
+case 26:
+YY_RULE_SETUP
+#line 43 "tinysql.l"
 ECHO;
 	YY_BREAK
-#line 736 "lex.yy.c"
+#line 924 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1030,7 +1218,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 10 )
+			if ( yy_current_state >= 91 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1058,11 +1246,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 10 )
+		if ( yy_current_state >= 91 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 9);
+	yy_is_jam = (yy_current_state == 90);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1738,52 +1926,9 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 13 "tinysql.l"
+#line 43 "tinysql.l"
 
 
-void convert_to_sql(char *input) {
-    char sql[256];
-
-    if (strstr(input, "Create table")) {
-        char table[50], columns[200];
-        sscanf(input, "Create table %s with %[^\n]", table, columns);
-        sprintf(sql, "CREATE TABLE %s (%s);", table, columns);
-    } 
-    else if (strstr(input, "Add")) {
-        char table[50], name[50];
-        int id;
-        sscanf(input, "Add %s with ID %d to %s", name, &id, table);
-        sprintf(sql, "INSERT INTO %s VALUES (%d, '%s');", table, id, name);
-    } 
-    else if (strstr(input, "Delete from")) {
-        char table[50], condition[100];
-        sscanf(input, "Delete from %s with %[^\n]", table, condition);
-        sprintf(sql, "DELETE FROM %s WHERE %s;", table, condition);
-    } 
-    else if (strstr(input, "Update")) {
-        char table[50], updates[100], condition[100];
-        sscanf(input, "Update %s set %[^w] where %[^\n]", table, updates, condition);
-        sprintf(sql, "UPDATE %s SET %s WHERE %s;", table, updates, condition);
-    } 
-    else if (strstr(input, "Find")) {
-        char table[50], condition[100];
-        sscanf(input, "Find %s where %[^\n]", table, condition);
-        sprintf(sql, "SELECT * FROM %s WHERE %s;", table, condition);
-    } 
-    else {
-        printf("Invalid query format!\n");
-        return;
-    }
-
-    printf("Converted to SQL: %s\n", sql);
-}
-
-int yywrap() {
+int yywrap(void) {
     return 1;
 }
-
-int main() {
-    yyparse();
-    return 0;
-}
-
